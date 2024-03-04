@@ -26,3 +26,19 @@ decrypted_image = Image.open(BytesIO(decrypted_image_unpad))
 
 # Imagen guardada.
 decrypted_image.save("./out/result-01.jpg")
+
+# Imagen encriptada y llave a utilizar.
+encrypted_image_bytes = open("./data/ayno_encrypted_image.jpeg", "rb").read()
+hex_key = open("./data/ayno.key").read()
+key = bytes.fromhex(hex_key)
+
+# Proceso de desencriptado de la imagen.
+cipher = AES.new(key, AES.MODE_CBC)
+decrypted_image_bytes = cipher.decrypt(encrypted_image_bytes)
+decrypted_image_unpad = unpad(decrypted_image_bytes, AES.block_size)
+
+# Archivo a escribir
+decrypted_image = Image.open(BytesIO(decrypted_image_unpad))
+
+# Imagen guardada.
+decrypted_image.save("./out/result-02.jpg")
